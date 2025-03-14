@@ -10,21 +10,11 @@ alpha <- 0.05
 
 mu_star_range <- c(0,0.5,1,1.5,2)#seq(-2.5,2.5,by=0.1)#-10:10
 
-#power <- numeric(length(mu_star_range))
-
 G <- expand.grid(rep = 1:N, mu_star = mu_star_range)
 G_shuffle <- G[sample(nrow(G)),]
 decisions <- numeric(nrow(G_shuffle))
 
 for(i in seq_len(nrow(G_shuffle))){
-
-#for (mu_star_i in seq_along(mu_star_range)) {
-  
-#  decisions <- numeric(N)
-  
-#  mu_star = mu_star_range[mu_star_i]
-  
-#  for (i in 1:N) {
    
   mu_star = G_shuffle$mu_star[i]
     
@@ -42,14 +32,6 @@ for(i in seq_len(nrow(G_shuffle))){
       decisions[i] <- 0
     }
 
-    ####
-    #create line-up figure
-    #get target image id
-    #choosen_image_id <- readLines(n=1)
-    #decision_lineup[i] <- as.numeric(choosen_image_id) == target_image_id    
-    
-#  }
-#     power[mu_star_i] <- mean(decisions)
 }
 
 G_shuffle$decisions <- decisions
@@ -57,8 +39,6 @@ power_data <- G_shuffle %>%
   group_by(mu_star) %>% 
   summarise(power = mean(decisions))
 
-
-#  power_data <- data.frame(mu_star = mu_star_range, power = power)
 
   ggplot(power_data, aes(x = mu_star, y = power)) +
     
